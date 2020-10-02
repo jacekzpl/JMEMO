@@ -26,6 +26,7 @@ namespace JMEMO
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddDbContext<JContext>(options => options.UseSqlServer(Configuration.GetConnectionString("JContext")));
         }
 
@@ -35,6 +36,7 @@ namespace JMEMO
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -47,6 +49,7 @@ namespace JMEMO
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -54,6 +57,7 @@ namespace JMEMO
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
